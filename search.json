@@ -27,6 +27,86 @@
     ]
   },
   {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#gpu-memory",
+    "href": "books/volume-1/ch01-inference-revolution.html#gpu-memory",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.1 GPU Memory",
+    "text": "6.1 GPU Memory\nThe largest models require tens or hundreds of gigabytes of accelerator memory.\nEven when computation is available, insufficient memory prevents additional requests from executing concurrently.\nMemory—not compute—is often the limiting resource.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#model-loading",
+    "href": "books/volume-1/ch01-inference-revolution.html#model-loading",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.2 Model Loading",
+    "text": "6.2 Model Loading\nLoading a large language model into GPU memory may take tens of seconds.\nCreating new replicas on demand is therefore much slower than scaling a stateless application container.\nInference platforms frequently keep models resident in memory to avoid repeated loading costs.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#context-length",
+    "href": "books/volume-1/ch01-inference-revolution.html#context-length",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.3 Context Length",
+    "text": "6.3 Context Length\nLonger conversations require more computation and more memory than short prompts.\nTwo users making requests to the same model may consume dramatically different resources.\nCapacity planning becomes probabilistic rather than deterministic.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#continuous-batching",
+    "href": "books/volume-1/ch01-inference-revolution.html#continuous-batching",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.4 Continuous Batching",
+    "text": "6.4 Continuous Batching\nModern inference engines improve throughput by combining requests that arrive at different times into a shared execution batch.\nThis technique, known as continuous batching, dramatically improves GPU utilization but introduces sophisticated scheduling algorithms that have no equivalent in traditional web applications.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#kv-cache",
+    "href": "books/volume-1/ch01-inference-revolution.html#kv-cache",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.5 KV Cache",
+    "text": "6.5 KV Cache\nEvery generated token creates intermediate state that must remain available while the conversation continues.\nThis state, known as the KV cache, often becomes the dominant consumer of GPU memory.\nAs request concurrency increases, cache management becomes as important as computation itself.\nThese constraints explain why inference systems require specialized software such as vLLM, SGLang, TensorRT-LLM, and llm-d.\nTheir purpose is not simply to execute models.\nTheir purpose is to maximize useful work performed by expensive accelerator hardware.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#objective",
+    "href": "books/volume-1/ch01-inference-revolution.html#objective",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "13.1 Objective",
+    "text": "13.1 Objective\nObserve the complete lifecycle of an inference request.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#steps",
+    "href": "books/volume-1/ch01-inference-revolution.html#steps",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "13.2 Steps",
+    "text": "13.2 Steps\n\nInstall Ollama.\nDownload a lightweight open model.\nStart the model locally.\nSend several prompts of varying length.\nObserve streamed token generation.\nMeasure:\n\ntotal response time;\napproximate tokens per second; and\nCPU or GPU utilization during execution.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#questions",
+    "href": "books/volume-1/ch01-inference-revolution.html#questions",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "13.3 Questions",
+    "text": "13.3 Questions\n\nDoes a longer prompt always produce a longer response?\nWhich appears to take longer: generating the first token or generating subsequent tokens?\nWhat hardware resource becomes most heavily utilized?",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",

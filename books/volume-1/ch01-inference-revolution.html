@@ -375,6 +375,29 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#computing-is-entering-the-inference-era" id="toc-computing-is-entering-the-inference-era" class="nav-link" data-scroll-target="#computing-is-entering-the-inference-era"><span class="header-section-number">2</span> 1.1 Computing Is Entering the Inference Era</a></li>
   <li><a href="#training-is-not-the-business-problem" id="toc-training-is-not-the-business-problem" class="nav-link" data-scroll-target="#training-is-not-the-business-problem"><span class="header-section-number">3</span> 1.2 Training Is Not the Business Problem</a></li>
   <li><a href="#every-token-has-a-cost" id="toc-every-token-has-a-cost" class="nav-link" data-scroll-target="#every-token-has-a-cost"><span class="header-section-number">4</span> 1.3 Every Token Has a Cost</a></li>
+  <li><a href="#inference-is-not-just-another-api" id="toc-inference-is-not-just-another-api" class="nav-link" data-scroll-target="#inference-is-not-just-another-api"><span class="header-section-number">5</span> 1.4 Inference Is Not Just Another API</a></li>
+  <li><a href="#why-traditional-scaling-stops-working" id="toc-why-traditional-scaling-stops-working" class="nav-link" data-scroll-target="#why-traditional-scaling-stops-working"><span class="header-section-number">6</span> 1.5 Why Traditional Scaling Stops Working</a>
+  <ul class="collapse">
+  <li><a href="#gpu-memory" id="toc-gpu-memory" class="nav-link" data-scroll-target="#gpu-memory"><span class="header-section-number">6.1</span> GPU Memory</a></li>
+  <li><a href="#model-loading" id="toc-model-loading" class="nav-link" data-scroll-target="#model-loading"><span class="header-section-number">6.2</span> Model Loading</a></li>
+  <li><a href="#context-length" id="toc-context-length" class="nav-link" data-scroll-target="#context-length"><span class="header-section-number">6.3</span> Context Length</a></li>
+  <li><a href="#continuous-batching" id="toc-continuous-batching" class="nav-link" data-scroll-target="#continuous-batching"><span class="header-section-number">6.4</span> Continuous Batching</a></li>
+  <li><a href="#kv-cache" id="toc-kv-cache" class="nav-link" data-scroll-target="#kv-cache"><span class="header-section-number">6.5</span> KV Cache</a></li>
+  </ul></li>
+  <li><a href="#a-new-engineering-discipline" id="toc-a-new-engineering-discipline" class="nav-link" data-scroll-target="#a-new-engineering-discipline"><span class="header-section-number">7</span> 1.6 A New Engineering Discipline</a></li>
+  <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link" data-scroll-target="#what-you-will-learn"><span class="header-section-number">8</span> 1.7 What You Will Learn</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="header-section-number">9</span> Chapter Summary</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways"><span class="header-section-number">10</span> Key Takeaways</a></li>
+  <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary"><span class="header-section-number">11</span> Glossary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">12</span> Exercises</a></li>
+  <li><a href="#hands-on-lab-1-your-first-inference-server" id="toc-hands-on-lab-1-your-first-inference-server" class="nav-link" data-scroll-target="#hands-on-lab-1-your-first-inference-server"><span class="header-section-number">13</span> Hands-on Lab 1 — Your First Inference Server</a>
+  <ul class="collapse">
+  <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective"><span class="header-section-number">13.1</span> Objective</a></li>
+  <li><a href="#steps" id="toc-steps" class="nav-link" data-scroll-target="#steps"><span class="header-section-number">13.2</span> Steps</a></li>
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions"><span class="header-section-number">13.3</span> Questions</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">14</span> Further Reading</a></li>
+  <li><a href="#research-papers" id="toc-research-papers" class="nav-link" data-scroll-target="#research-papers"><span class="header-section-number">15</span> Research Papers</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/smitterh/enterprise-llm-inference/edit/main/books/volume-1/ch01-inference-revolution.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/smitterh/enterprise-llm-inference/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -554,6 +577,249 @@ C --&gt; A</code></pre>
 <p>“Can this GPU generate more tokens per second?”</p>
 </blockquote>
 <p>This seemingly small shift in perspective drives nearly every architectural decision discussed throughout the remainder of this book.</p>
+</section>
+<section id="inference-is-not-just-another-api" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 1.4 Inference Is Not Just Another API</h1>
+<p>At first glance, invoking an LLM appears deceptively simple. An application sends a prompt to a REST or gRPC endpoint and receives a response. From the perspective of the client, the interaction resembles any other service call.</p>
+<p>Internally, however, the request follows a very different execution path.</p>
+<p>A traditional web application typically performs a small amount of computation before retrieving or updating information in a database.</p>
+<pre class="mermaid"><code>flowchart LR
+
+Client --&gt; LoadBalancer["Load Balancer"]
+LoadBalancer --&gt; Service
+Service --&gt; Database
+Database --&gt; Service
+Service --&gt; Client</code></pre>
+<p>The duration of the request is usually determined by network latency, business logic, and database performance.</p>
+<p>Inference systems introduce an entirely different pipeline.</p>
+<pre class="mermaid"><code>flowchart LR
+
+Client --&gt; Gateway
+Gateway --&gt; Router
+Router --&gt; Tokenizer
+Tokenizer --&gt; Scheduler
+Scheduler --&gt; ModelServer["Model Server"]
+ModelServer --&gt; GPU
+GPU --&gt; Decoder
+Decoder --&gt; Stream
+Stream --&gt; Client</code></pre>
+<p>Several important differences immediately emerge.</p>
+<p>First, inference requests are <strong>stateful</strong> while they execute. The system must remember every token that has already been generated.</p>
+<p>Second, the request remains active until generation completes. Unlike a database query that returns all results at once, an LLM produces output incrementally.</p>
+<p>Third, expensive accelerator resources remain occupied for the lifetime of the request.</p>
+<p>Finally, every additional generated token requires another iteration through the decoding process.</p>
+<p>These characteristics explain why traditional load balancing techniques alone are insufficient for inference workloads. Two requests with identical arrival times may consume vastly different amounts of GPU time depending on prompt length, response length, and model complexity.</p>
+<p>Inference systems therefore require intelligent scheduling rather than simple request distribution.</p>
+<hr>
+</section>
+<section id="why-traditional-scaling-stops-working" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> 1.5 Why Traditional Scaling Stops Working</h1>
+<p>Cloud-native engineers are accustomed to solving performance problems by adding replicas.</p>
+<p>If a web service experiences higher demand, Kubernetes schedules additional Pods. A load balancer distributes requests across them, and throughput increases almost linearly.</p>
+<p>Inference systems rarely behave this way.</p>
+<p>Several new constraints dominate system performance.</p>
+<section id="gpu-memory" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="gpu-memory"><span class="header-section-number">6.1</span> GPU Memory</h2>
+<p>The largest models require tens or hundreds of gigabytes of accelerator memory.</p>
+<p>Even when computation is available, insufficient memory prevents additional requests from executing concurrently.</p>
+<p>Memory—not compute—is often the limiting resource.</p>
+</section>
+<section id="model-loading" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="model-loading"><span class="header-section-number">6.2</span> Model Loading</h2>
+<p>Loading a large language model into GPU memory may take tens of seconds.</p>
+<p>Creating new replicas on demand is therefore much slower than scaling a stateless application container.</p>
+<p>Inference platforms frequently keep models resident in memory to avoid repeated loading costs.</p>
+</section>
+<section id="context-length" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="context-length"><span class="header-section-number">6.3</span> Context Length</h2>
+<p>Longer conversations require more computation and more memory than short prompts.</p>
+<p>Two users making requests to the same model may consume dramatically different resources.</p>
+<p>Capacity planning becomes probabilistic rather than deterministic.</p>
+</section>
+<section id="continuous-batching" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="continuous-batching"><span class="header-section-number">6.4</span> Continuous Batching</h2>
+<p>Modern inference engines improve throughput by combining requests that arrive at different times into a shared execution batch.</p>
+<p>This technique, known as <strong>continuous batching</strong>, dramatically improves GPU utilization but introduces sophisticated scheduling algorithms that have no equivalent in traditional web applications.</p>
+</section>
+<section id="kv-cache" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="kv-cache"><span class="header-section-number">6.5</span> KV Cache</h2>
+<p>Every generated token creates intermediate state that must remain available while the conversation continues.</p>
+<p>This state, known as the <strong>KV cache</strong>, often becomes the dominant consumer of GPU memory.</p>
+<p>As request concurrency increases, cache management becomes as important as computation itself.</p>
+<p>These constraints explain why inference systems require specialized software such as vLLM, SGLang, TensorRT-LLM, and llm-d.</p>
+<p>Their purpose is not simply to execute models.</p>
+<p>Their purpose is to maximize useful work performed by expensive accelerator hardware.</p>
+<hr>
+</section>
+</section>
+<section id="a-new-engineering-discipline" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> 1.6 A New Engineering Discipline</h1>
+<p>Every significant shift in computing eventually produces new abstractions, new tools, and new specialists.</p>
+<p>Relational databases produced database engineering.</p>
+<p>Cloud computing produced cloud architecture.</p>
+<p>Container orchestration produced platform engineering.</p>
+<p>Inference systems are following the same trajectory.</p>
+<p>Modern inference engineers routinely work across disciplines that historically had little overlap.</p>
+<p>They must understand distributed systems well enough to design resilient serving platforms.</p>
+<p>They must understand GPU hardware well enough to recognize memory bottlenecks.</p>
+<p>They must understand networking because every millisecond of latency affects user experience.</p>
+<p>They must understand Kubernetes because most production inference platforms are deployed on cloud-native infrastructure.</p>
+<p>They must understand machine learning systems—not to train models—but to deploy, scale, route, monitor, and optimize them.</p>
+<p>This combination of skills rarely exists within a single traditional engineering role.</p>
+<p>As organizations deploy larger numbers of models, inference engineering is emerging as a specialized discipline focused on four primary objectives:</p>
+<ul>
+<li>Deliver low latency.</li>
+<li>Maximize accelerator utilization.</li>
+<li>Reduce operating cost.</li>
+<li>Maintain reliability at production scale.</li>
+</ul>
+<p>Throughout this book we will examine the technologies, architectures, and design patterns that enable these objectives.</p>
+<hr>
+</section>
+<section id="what-you-will-learn" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> 1.7 What You Will Learn</h1>
+<p>This volume establishes the conceptual foundations of inference engineering.</p>
+<p>The remaining chapters explain:</p>
+<ul>
+<li>how text becomes tokens;</li>
+<li>how transformer models execute during inference;</li>
+<li>why prefill and decode exhibit different performance characteristics;</li>
+<li>why the KV cache is central to modern inference systems;</li>
+<li>which metrics accurately describe inference performance; and</li>
+<li>why GPUs dominate large-scale model serving.</li>
+</ul>
+<p>Later volumes build upon these foundations to explore model servers, schedulers, routing, inference gateways, Kubernetes deployment patterns, distributed serving, observability, benchmarking, and enterprise architectures.</p>
+<p>By the end of this series, you should be able to reason about an inference platform in the same way experienced cloud architects reason about microservice platforms today.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Chapter Summary</h1>
+<p>The rapid adoption of large language models is transforming enterprise computing.</p>
+<p>Although public attention often focuses on model training, most organizations derive value through inference. Every interaction with an AI assistant, coding copilot, document summarizer, or enterprise agent becomes an inference request competing for expensive accelerator resources.</p>
+<p>Unlike traditional web applications, inference systems must optimize GPU memory, scheduling, batching, and token generation while balancing latency, throughput, and cost.</p>
+<p>These challenges have given rise to a new engineering discipline focused on designing efficient, reliable, and scalable inference platforms.</p>
+<p>The remaining chapters build the knowledge required to understand and engineer those systems.</p>
+<hr>
+</section>
+<section id="key-takeaways" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Key Takeaways</h1>
+<ul>
+<li>Most enterprises perform inference rather than training.</li>
+<li>Inference workloads differ fundamentally from traditional web services.</li>
+<li>GPUs are valuable because inference is computationally intensive.</li>
+<li>GPU memory is often more constrained than GPU compute.</li>
+<li>Efficient scheduling is as important as fast hardware.</li>
+<li>Inference engineering combines cloud-native systems engineering with machine learning infrastructure.</li>
+</ul>
+<hr>
+</section>
+<section id="glossary" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Glossary</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inference</strong></td>
+<td>Executing a trained model to produce predictions or generated output.</td>
+</tr>
+<tr class="even">
+<td><strong>Token</strong></td>
+<td>The smallest unit of text processed by a language model.</td>
+</tr>
+<tr class="odd">
+<td><strong>GPU</strong></td>
+<td>Graphics Processing Unit, optimized for massively parallel computation.</td>
+</tr>
+<tr class="even">
+<td><strong>Continuous Batching</strong></td>
+<td>Dynamically combining requests to maximize accelerator utilization.</td>
+</tr>
+<tr class="odd">
+<td><strong>KV Cache</strong></td>
+<td>Stored attention keys and values reused during token generation.</td>
+</tr>
+<tr class="even">
+<td><strong>Latency</strong></td>
+<td>Time required to produce a response.</td>
+</tr>
+<tr class="odd">
+<td><strong>Throughput</strong></td>
+<td>Amount of work completed over time, often measured as tokens per second.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="exercises" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Exercises</h1>
+<ol type="1">
+<li>Explain why inference, rather than training, dominates enterprise AI workloads.</li>
+<li>Describe three ways inference requests differ from traditional REST requests.</li>
+<li>Why can GPU memory become the limiting factor even when compute resources remain available?</li>
+<li>Why is simply adding more Kubernetes Pods insufficient for many inference workloads?</li>
+<li>Research one production inference engine (for example, vLLM or SGLang) and identify the primary problem it was designed to solve.</li>
+</ol>
+<hr>
+</section>
+<section id="hands-on-lab-1-your-first-inference-server" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Hands-on Lab 1 — Your First Inference Server</h1>
+<section id="objective" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="objective"><span class="header-section-number">13.1</span> Objective</h2>
+<p>Observe the complete lifecycle of an inference request.</p>
+</section>
+<section id="steps" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="steps"><span class="header-section-number">13.2</span> Steps</h2>
+<ol type="1">
+<li>Install Ollama.</li>
+<li>Download a lightweight open model.</li>
+<li>Start the model locally.</li>
+<li>Send several prompts of varying length.</li>
+<li>Observe streamed token generation.</li>
+<li>Measure:
+<ul>
+<li>total response time;</li>
+<li>approximate tokens per second; and</li>
+<li>CPU or GPU utilization during execution.</li>
+</ul></li>
+</ol>
+</section>
+<section id="questions" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="questions"><span class="header-section-number">13.3</span> Questions</h2>
+<ul>
+<li>Does a longer prompt always produce a longer response?</li>
+<li>Which appears to take longer: generating the first token or generating subsequent tokens?</li>
+<li>What hardware resource becomes most heavily utilized?</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="further-reading" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> Further Reading</h1>
+<ul>
+<li><em>Attention Is All You Need</em> (Vaswani et al., 2017)</li>
+<li><em>PagedAttention: Efficient Memory Management for Large Language Model Serving</em></li>
+<li>vLLM Project Documentation</li>
+<li>SGLang Documentation</li>
+<li>llm-d Documentation</li>
+</ul>
+<hr>
+</section>
+<section id="research-papers" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> Research Papers</h1>
+<ul>
+<li>Vaswani, A., et al.&nbsp;(2017). <em>Attention Is All You Need.</em></li>
+<li>Kwon, W., et al.&nbsp;(2023). <em>Efficient Memory Management for Large Language Model Serving with PagedAttention.</em></li>
+<li>Yu, G., et al.&nbsp;(2022). <em>Orca: A Distributed Serving System for Transformer-Based Generative Models.</em></li>
+</ul>
 
 
 </section>
