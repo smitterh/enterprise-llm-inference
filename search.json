@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Enterprise LLM Inference Engineering",
+    "section": "",
+    "text": "1 Welcome\nThis is an open knowledge base and textbook series for enterprise LLM inference engineering.\nIt covers:\n\nLLM inference fundamentals\nGPU systems\nInference engines\nDistributed inference\nKubernetes AI platforms\nllm-d\nAI gateways\nObservability\nEnterprise architecture"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -19,12 +26,5 @@
     "title": "Volume 1 — Foundations of LLM Inference",
     "section": "",
     "text": "The Inference Revolution\nAnatomy of an Inference Request\nTokens and Tokenization\nTransformer Inference\nPrefill and Decode\nThe KV Cache\nInference Performance Metrics\nGPU Foundations"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Enterprise LLM Inference Engineering",
-    "section": "",
-    "text": "1 Welcome\nThis is an open knowledge base and textbook series for enterprise LLM inference engineering.\nIt covers:\n\nLLM inference fundamentals\nGPU systems\nInference engines\nDistributed inference\nKubernetes AI platforms\nllm-d\nAI gateways\nObservability\nEnterprise architecture"
   }
 ]
