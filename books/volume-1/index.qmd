@@ -1,0 +1,18 @@
+---
+title: "Volume 1 — Foundations of LLM Inference"
+---
+
+# Volume 1 — Foundations of LLM Inference
+
+This volume explains how LLM inference works from first principles.
+
+## Chapters
+
+1. The Inference Revolution
+2. Anatomy of an Inference Request
+3. Tokens and Tokenization
+4. Transformer Inference
+5. Prefill and Decode
+6. The KV Cache
+7. Inference Performance Metrics
+8. GPU Foundations

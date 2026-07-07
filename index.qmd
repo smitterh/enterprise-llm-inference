@@ -1,0 +1,20 @@
+---
+title: "Enterprise LLM Inference Engineering"
+subtitle: "Building Production AI Platforms at Scale"
+---
+
+# Welcome
+
+This is an open knowledge base and textbook series for enterprise LLM inference engineering.
+
+It covers:
+
+- LLM inference fundamentals
+- GPU systems
+- Inference engines
+- Distributed inference
+- Kubernetes AI platforms
+- llm-d
+- AI gateways
+- Observability
+- Enterprise architecture
