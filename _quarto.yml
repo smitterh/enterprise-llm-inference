@@ -3,12 +3,20 @@ project:
 
 website:
   title: "Enterprise LLM Inference Engineering"
+  site-url: "https://smitterh.github.io/enterprise-llm-inference/"
+  repo-url: "https://github.com/smitterh/enterprise-llm-inference"
+  repo-actions: [edit, issue]
+
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - href: books/volume-1/index.qmd
-        text: Volume 1
+      - href: roadmap.qmd
+        text: Roadmap
+      - text: Books
+        menu:
+          - href: books/volume-1/index.qmd
+            text: "Volume 1 — Foundations"
       - href: concepts/index.qmd
         text: Concepts
       - href: technologies/index.qmd
@@ -22,11 +30,28 @@ website:
       - href: glossary/index.qmd
         text: Glossary
 
+  sidebar:
+    - title: "Volume 1"
+      style: "docked"
+      contents:
+        - books/volume-1/index.qmd
+        - books/volume-1/ch01-inference-revolution.qmd
+        - books/volume-1/ch02-anatomy-of-an-inference-request.qmd
+        - books/volume-1/ch03-tokens-and-tokenization.qmd
+        - books/volume-1/ch04-transformer-inference.qmd
+        - books/volume-1/ch05-prefill-and-decode.qmd
+        - books/volume-1/ch06-kv-cache.qmd
+        - books/volume-1/ch07-inference-performance-metrics.qmd
+        - books/volume-1/ch08-gpu-foundations.qmd
+
 format:
   html:
-    theme: cosmo
+    theme:
+      light: cosmo
+      dark: darkly
     toc: true
     number-sections: true
     code-copy: true
-
-
+    code-overflow: wrap
+    mermaid:
+      theme: default
