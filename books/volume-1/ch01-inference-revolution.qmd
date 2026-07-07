@@ -190,3 +190,258 @@ platform engineers begin asking,
 > "Can this GPU generate more tokens per second?"
 
 This seemingly small shift in perspective drives nearly every architectural decision discussed throughout the remainder of this book.
+
+# 1.4 Inference Is Not Just Another API
+
+At first glance, invoking an LLM appears deceptively simple. An application sends a prompt to a REST or gRPC endpoint and receives a response. From the perspective of the client, the interaction resembles any other service call.
+
+Internally, however, the request follows a very different execution path.
+
+A traditional web application typically performs a small amount of computation before retrieving or updating information in a database.
+
+```mermaid
+flowchart LR
+
+Client --> LoadBalancer["Load Balancer"]
+LoadBalancer --> Service
+Service --> Database
+Database --> Service
+Service --> Client
+```
+
+The duration of the request is usually determined by network latency, business logic, and database performance.
+
+Inference systems introduce an entirely different pipeline.
+
+```mermaid
+flowchart LR
+
+Client --> Gateway
+Gateway --> Router
+Router --> Tokenizer
+Tokenizer --> Scheduler
+Scheduler --> ModelServer["Model Server"]
+ModelServer --> GPU
+GPU --> Decoder
+Decoder --> Stream
+Stream --> Client
+```
+
+Several important differences immediately emerge.
+
+First, inference requests are **stateful** while they execute. The system must remember every token that has already been generated.
+
+Second, the request remains active until generation completes. Unlike a database query that returns all results at once, an LLM produces output incrementally.
+
+Third, expensive accelerator resources remain occupied for the lifetime of the request.
+
+Finally, every additional generated token requires another iteration through the decoding process.
+
+These characteristics explain why traditional load balancing techniques alone are insufficient for inference workloads. Two requests with identical arrival times may consume vastly different amounts of GPU time depending on prompt length, response length, and model complexity.
+
+Inference systems therefore require intelligent scheduling rather than simple request distribution.
+
+---
+
+# 1.5 Why Traditional Scaling Stops Working
+
+Cloud-native engineers are accustomed to solving performance problems by adding replicas.
+
+If a web service experiences higher demand, Kubernetes schedules additional Pods. A load balancer distributes requests across them, and throughput increases almost linearly.
+
+Inference systems rarely behave this way.
+
+Several new constraints dominate system performance.
+
+## GPU Memory
+
+The largest models require tens or hundreds of gigabytes of accelerator memory.
+
+Even when computation is available, insufficient memory prevents additional requests from executing concurrently.
+
+Memory—not compute—is often the limiting resource.
+
+## Model Loading
+
+Loading a large language model into GPU memory may take tens of seconds.
+
+Creating new replicas on demand is therefore much slower than scaling a stateless application container.
+
+Inference platforms frequently keep models resident in memory to avoid repeated loading costs.
+
+## Context Length
+
+Longer conversations require more computation and more memory than short prompts.
+
+Two users making requests to the same model may consume dramatically different resources.
+
+Capacity planning becomes probabilistic rather than deterministic.
+
+## Continuous Batching
+
+Modern inference engines improve throughput by combining requests that arrive at different times into a shared execution batch.
+
+This technique, known as **continuous batching**, dramatically improves GPU utilization but introduces sophisticated scheduling algorithms that have no equivalent in traditional web applications.
+
+## KV Cache
+
+Every generated token creates intermediate state that must remain available while the conversation continues.
+
+This state, known as the **KV cache**, often becomes the dominant consumer of GPU memory.
+
+As request concurrency increases, cache management becomes as important as computation itself.
+
+These constraints explain why inference systems require specialized software such as vLLM, SGLang, TensorRT-LLM, and llm-d.
+
+Their purpose is not simply to execute models.
+
+Their purpose is to maximize useful work performed by expensive accelerator hardware.
+
+---
+
+# 1.6 A New Engineering Discipline
+
+Every significant shift in computing eventually produces new abstractions, new tools, and new specialists.
+
+Relational databases produced database engineering.
+
+Cloud computing produced cloud architecture.
+
+Container orchestration produced platform engineering.
+
+Inference systems are following the same trajectory.
+
+Modern inference engineers routinely work across disciplines that historically had little overlap.
+
+They must understand distributed systems well enough to design resilient serving platforms.
+
+They must understand GPU hardware well enough to recognize memory bottlenecks.
+
+They must understand networking because every millisecond of latency affects user experience.
+
+They must understand Kubernetes because most production inference platforms are deployed on cloud-native infrastructure.
+
+They must understand machine learning systems—not to train models—but to deploy, scale, route, monitor, and optimize them.
+
+This combination of skills rarely exists within a single traditional engineering role.
+
+As organizations deploy larger numbers of models, inference engineering is emerging as a specialized discipline focused on four primary objectives:
+
+- Deliver low latency.
+- Maximize accelerator utilization.
+- Reduce operating cost.
+- Maintain reliability at production scale.
+
+Throughout this book we will examine the technologies, architectures, and design patterns that enable these objectives.
+
+---
+
+# 1.7 What You Will Learn
+
+This volume establishes the conceptual foundations of inference engineering.
+
+The remaining chapters explain:
+
+- how text becomes tokens;
+- how transformer models execute during inference;
+- why prefill and decode exhibit different performance characteristics;
+- why the KV cache is central to modern inference systems;
+- which metrics accurately describe inference performance; and
+- why GPUs dominate large-scale model serving.
+
+Later volumes build upon these foundations to explore model servers, schedulers, routing, inference gateways, Kubernetes deployment patterns, distributed serving, observability, benchmarking, and enterprise architectures.
+
+By the end of this series, you should be able to reason about an inference platform in the same way experienced cloud architects reason about microservice platforms today.
+
+---
+
+# Chapter Summary
+
+The rapid adoption of large language models is transforming enterprise computing.
+
+Although public attention often focuses on model training, most organizations derive value through inference. Every interaction with an AI assistant, coding copilot, document summarizer, or enterprise agent becomes an inference request competing for expensive accelerator resources.
+
+Unlike traditional web applications, inference systems must optimize GPU memory, scheduling, batching, and token generation while balancing latency, throughput, and cost.
+
+These challenges have given rise to a new engineering discipline focused on designing efficient, reliable, and scalable inference platforms.
+
+The remaining chapters build the knowledge required to understand and engineer those systems.
+
+---
+
+# Key Takeaways
+
+- Most enterprises perform inference rather than training.
+- Inference workloads differ fundamentally from traditional web services.
+- GPUs are valuable because inference is computationally intensive.
+- GPU memory is often more constrained than GPU compute.
+- Efficient scheduling is as important as fast hardware.
+- Inference engineering combines cloud-native systems engineering with machine learning infrastructure.
+
+---
+
+# Glossary
+
+| Term | Definition |
+|------|------------|
+| **Inference** | Executing a trained model to produce predictions or generated output. |
+| **Token** | The smallest unit of text processed by a language model. |
+| **GPU** | Graphics Processing Unit, optimized for massively parallel computation. |
+| **Continuous Batching** | Dynamically combining requests to maximize accelerator utilization. |
+| **KV Cache** | Stored attention keys and values reused during token generation. |
+| **Latency** | Time required to produce a response. |
+| **Throughput** | Amount of work completed over time, often measured as tokens per second. |
+
+---
+
+# Exercises
+
+1. Explain why inference, rather than training, dominates enterprise AI workloads.
+2. Describe three ways inference requests differ from traditional REST requests.
+3. Why can GPU memory become the limiting factor even when compute resources remain available?
+4. Why is simply adding more Kubernetes Pods insufficient for many inference workloads?
+5. Research one production inference engine (for example, vLLM or SGLang) and identify the primary problem it was designed to solve.
+
+---
+
+# Hands-on Lab 1 — Your First Inference Server
+
+## Objective
+
+Observe the complete lifecycle of an inference request.
+
+## Steps
+
+1. Install Ollama.
+2. Download a lightweight open model.
+3. Start the model locally.
+4. Send several prompts of varying length.
+5. Observe streamed token generation.
+6. Measure:
+   - total response time;
+   - approximate tokens per second; and
+   - CPU or GPU utilization during execution.
+
+## Questions
+
+- Does a longer prompt always produce a longer response?
+- Which appears to take longer: generating the first token or generating subsequent tokens?
+- What hardware resource becomes most heavily utilized?
+
+---
+
+# Further Reading
+
+- *Attention Is All You Need* (Vaswani et al., 2017)
+- *PagedAttention: Efficient Memory Management for Large Language Model Serving*
+- vLLM Project Documentation
+- SGLang Documentation
+- llm-d Documentation
+
+---
+
+# Research Papers
+
+- Vaswani, A., et al. (2017). *Attention Is All You Need.*
+- Kwon, W., et al. (2023). *Efficient Memory Management for Large Language Model Serving with PagedAttention.*
+- Yu, G., et al. (2022). *Orca: A Distributed Serving System for Transformer-Based Generative Models.*
