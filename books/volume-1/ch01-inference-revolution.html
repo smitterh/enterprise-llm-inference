@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Hugo Smitter">
 
-<title>Volume 1 — Foundations of LLM Inference – Enterprise LLM Inference Engineering</title>
+<title>Chapter 1 — The Inference Revolution – Enterprise LLM Inference Engineering</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -312,7 +313,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../books/volume-1/index.html">Volume 1 — Foundations of LLM Inference</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../books/volume-1/ch01-inference-revolution.html">Chapter 1 — The Inference Revolution</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -326,13 +327,13 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../books/volume-1/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../books/volume-1/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Volume 1 — Foundations of LLM Inference</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../books/volume-1/ch01-inference-revolution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../books/volume-1/ch01-inference-revolution.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Chapter 1 — The Inference Revolution</span></a>
   </div>
 </li>
@@ -367,12 +368,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#volume-1-foundations-of-llm-inference" id="toc-volume-1-foundations-of-llm-inference" class="nav-link active" data-scroll-target="#volume-1-foundations-of-llm-inference"><span class="header-section-number">1</span> Volume 1 — Foundations of LLM Inference</a>
+  <li><a href="#chapter-1-the-inference-revolution" id="toc-chapter-1-the-inference-revolution" class="nav-link active" data-scroll-target="#chapter-1-the-inference-revolution"><span class="header-section-number">1</span> Chapter 1 — The Inference Revolution</a>
   <ul class="collapse">
-  <li><a href="#chapters" id="toc-chapters" class="nav-link" data-scroll-target="#chapters"><span class="header-section-number">1.1</span> Chapters</a></li>
+  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters"><span class="header-section-number">1.1</span> Why This Matters</a></li>
   </ul></li>
+  <li><a href="#computing-is-entering-the-inference-era" id="toc-computing-is-entering-the-inference-era" class="nav-link" data-scroll-target="#computing-is-entering-the-inference-era"><span class="header-section-number">2</span> 1.1 Computing Is Entering the Inference Era</a></li>
+  <li><a href="#training-is-not-the-business-problem" id="toc-training-is-not-the-business-problem" class="nav-link" data-scroll-target="#training-is-not-the-business-problem"><span class="header-section-number">3</span> 1.2 Training Is Not the Business Problem</a></li>
+  <li><a href="#every-token-has-a-cost" id="toc-every-token-has-a-cost" class="nav-link" data-scroll-target="#every-token-has-a-cost"><span class="header-section-number">4</span> 1.3 Every Token Has a Cost</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/smitterh/enterprise-llm-inference/edit/main/books/volume-1/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/smitterh/enterprise-llm-inference/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/smitterh/enterprise-llm-inference/edit/main/books/volume-1/ch01-inference-revolution.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/smitterh/enterprise-llm-inference/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -380,13 +384,19 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Volume 1 — Foundations of LLM Inference</h1>
+<h1 class="title">Chapter 1 — The Inference Revolution</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Hugo Smitter </p>
+          </div>
+  </div>
     
   
     
@@ -397,24 +407,155 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="volume-1-foundations-of-llm-inference" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Volume 1 — Foundations of LLM Inference</h1>
-<p>This volume explains how LLM inference works from first principles.</p>
-<section id="chapters" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="chapters"><span class="header-section-number">1.1</span> Chapters</h2>
-<ol type="1">
-<li>The Inference Revolution</li>
-<li>Anatomy of an Inference Request</li>
-<li>Tokens and Tokenization</li>
-<li>Transformer Inference</li>
-<li>Prefill and Decode</li>
-<li>The KV Cache</li>
-<li>Inference Performance Metrics</li>
-<li>GPU Foundations</li>
-</ol>
-
-
+<section id="chapter-1-the-inference-revolution" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Chapter 1 — The Inference Revolution</h1>
+<section id="why-this-matters" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="why-this-matters"><span class="header-section-number">1.1</span> Why This Matters</h2>
+<p>Every major shift in computing has created a new engineering discipline.</p>
+<p>The rise of relational databases created database administrators and database engineers. The growth of the Internet produced web engineers. Cloud computing gave rise to cloud architects, site reliability engineering (SRE), and platform engineering. Kubernetes introduced an entirely new ecosystem of cloud-native infrastructure specialists.</p>
+<p>Large Language Models (LLMs) represent another such shift.</p>
+<p>While much public attention has focused on training increasingly capable models, the overwhelming majority of organizations will never train a frontier model. Instead, they will deploy, serve, secure, monitor, and optimize models that already exist. The challenge is no longer how to create a model—it is how to run one efficiently, economically, and reliably at scale.</p>
+<p>This challenge is known as <strong>LLM inference</strong>.</p>
+<p>Inference engineering sits at the intersection of distributed systems, GPU computing, networking, scheduling, storage, cloud-native platforms, and machine learning infrastructure. It is becoming its own engineering discipline because traditional software architectures were never designed to execute probabilistic models that generate text one token at a time.</p>
+<p>This book is about that discipline.</p>
+<hr>
 </section>
+</section>
+<section id="computing-is-entering-the-inference-era" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 1.1 Computing Is Entering the Inference Era</h1>
+<p>For more than three decades, enterprise software has been dominated by transactional systems.</p>
+<p>A typical application processed requests using a familiar pipeline:</p>
+<pre class="mermaid"><code>flowchart LR
+
+A[Client] --&gt; B[Load Balancer]
+B --&gt; C[Application]
+C --&gt; D[Database]
+D --&gt; C
+C --&gt; A</code></pre>
+<p>Although the technologies evolved—from monoliths to microservices, from virtual machines to containers, from data centers to cloud-native platforms—the underlying execution model remained largely unchanged.</p>
+<p>A request arrived.</p>
+<p>Business logic executed.</p>
+<p>Data was retrieved.</p>
+<p>A response was returned.</p>
+<p>Most architectural improvements focused on scaling this workflow. Faster databases, better caches, improved load balancers, more resilient clusters, and horizontal scaling all targeted the same basic request/response model.</p>
+<p>Large Language Models fundamentally change that model.</p>
+<p>Instead of retrieving information from a database, an LLM synthesizes new information by executing billions or even trillions of mathematical operations across neural network layers.</p>
+<p>Instead of returning a complete response immediately, it generates one token at a time.</p>
+<p>Instead of consuming mostly CPU resources, inference depends primarily on accelerators such as GPUs.</p>
+<p>Instead of milliseconds of computation, requests may execute for several seconds while continuously consuming expensive hardware.</p>
+<p>The architectural implications are profound.</p>
+<p>The question is no longer:</p>
+<blockquote class="blockquote">
+<p>“How do I scale my web service?”</p>
+</blockquote>
+<p>Instead, organizations must answer questions such as:</p>
+<ul>
+<li>How do I keep GPUs fully utilized?</li>
+<li>How many concurrent requests can a model serve?</li>
+<li>Where should prompts be routed?</li>
+<li>How is conversational context preserved?</li>
+<li>How do I minimize latency while maximizing throughput?</li>
+<li>How do I reduce inference cost without sacrificing quality?</li>
+</ul>
+<p>These questions define a new category of systems engineering.</p>
+<hr>
+</section>
+<section id="training-is-not-the-business-problem" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 1.2 Training Is Not the Business Problem</h1>
+<p>Popular media often portrays artificial intelligence as a race to build larger and larger models.</p>
+<p>Companies announce trillion-parameter models.</p>
+<p>Research papers focus on training techniques.</p>
+<p>Benchmark leaderboards celebrate increasingly capable systems.</p>
+<p>This creates the impression that training is the central engineering challenge.</p>
+<p>For most enterprises, it is not.</p>
+<p>Training a frontier model requires enormous investments in hardware, specialized expertise, and months of continuous computation. Only a small number of organizations possess the resources necessary to train state-of-the-art foundation models.</p>
+<p>Most enterprises operate very differently.</p>
+<p>They consume pre-trained models from providers such as OpenAI, Anthropic, Google, Meta, Mistral AI, or open-source communities. Their competitive advantage lies not in creating models, but in integrating them into products and business processes.</p>
+<p>Consider several common enterprise applications:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Application</th>
+<th>Primary Workload</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer support</td>
+<td>Millions of inference requests</td>
+</tr>
+<tr class="even">
+<td>Coding assistants</td>
+<td>Continuous inference</td>
+</tr>
+<tr class="odd">
+<td>Enterprise search</td>
+<td>Retrieval plus inference</td>
+</tr>
+<tr class="even">
+<td>Document summarization</td>
+<td>Batch inference</td>
+</tr>
+<tr class="odd">
+<td>Fraud analysis</td>
+<td>Real-time inference</td>
+</tr>
+<tr class="even">
+<td>AI agents</td>
+<td>Multi-step inference</td>
+</tr>
+</tbody>
+</table>
+<p>None of these applications train models during normal operation.</p>
+<p>They perform inference.</p>
+<p>Every user interaction becomes another inference request.</p>
+<p>An organization serving one million users may execute billions of inference requests every month while never training a single neural network.</p>
+<p>This distinction changes everything.</p>
+<p>Training is typically performed once.</p>
+<p>Inference executes continuously.</p>
+<p>Training is a capital investment.</p>
+<p>Inference becomes an operational expense.</p>
+<p>Training determines what a model can know.</p>
+<p>Inference determines whether a product is economically viable.</p>
+<p>As models become commoditized, inference increasingly becomes the competitive advantage.</p>
+<p>Organizations that can deliver lower latency, higher throughput, better reliability, and lower operating costs gain a measurable business advantage, even when using the same underlying model as their competitors.</p>
+<hr>
+</section>
+<section id="every-token-has-a-cost" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 1.3 Every Token Has a Cost</h1>
+<p>Traditional software scales primarily with CPU, memory, storage, and network bandwidth.</p>
+<p>Inference systems introduce a different economic model.</p>
+<p>Every generated token consumes computational resources.</p>
+<p>Those resources have direct financial cost.</p>
+<p>A simple prompt such as:</p>
+<blockquote class="blockquote">
+<p>“Summarize this five-page document.”</p>
+</blockquote>
+<p>initiates a surprisingly complex execution pipeline.</p>
+<p>The request must be tokenized.</p>
+<p>The model performs an initial computation over the entire prompt.</p>
+<p>GPU memory is allocated.</p>
+<p>Intermediate state is stored.</p>
+<p>The decoder generates one token.</p>
+<p>Then another.</p>
+<p>And another.</p>
+<p>Each token requires additional computation until the response completes.</p>
+<p>Unlike a REST API that often completes after a single database query, inference workloads remain active throughout the entire generation process.</p>
+<p>Longer conversations consume more GPU time.</p>
+<p>Longer outputs require more decoding.</p>
+<p>More concurrent users require more accelerator capacity.</p>
+<p>The result is an entirely different optimization problem.</p>
+<p>Instead of asking,</p>
+<blockquote class="blockquote">
+<p>“Can this server handle more requests?”</p>
+</blockquote>
+<p>platform engineers begin asking,</p>
+<blockquote class="blockquote">
+<p>“Can this GPU generate more tokens per second?”</p>
+</blockquote>
+<p>This seemingly small shift in perspective drives nearly every architectural decision discussed throughout the remainder of this book.</p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -836,4 +977,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/smitterh/enterprise-llm-inference/edit/main/books/volume-1/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/smitterh/enterprise-llm-inference/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/smitterh/enterprise-llm-inference/edit/main/books/volume-1/ch01-inference-revolution.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/smitterh/enterprise-llm-inference/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
