@@ -11,14 +11,20 @@
     "href": "books/volume-1/index.html",
     "title": "Volume 1 — Foundations of LLM Inference",
     "section": "",
-    "text": "This volume explains how LLM inference works from first principles.\n\n\n\nThe Inference Revolution\nAnatomy of an Inference Request\nTokens and Tokenization\nTransformer Inference\nPrefill and Decode\nThe KV Cache\nInference Performance Metrics\nGPU Foundations"
+    "text": "This volume explains how LLM inference works from first principles.\n\n\n\nThe Inference Revolution\nAnatomy of an Inference Request\nTokens and Tokenization\nTransformer Inference\nPrefill and Decode\nThe KV Cache\nInference Performance Metrics\nGPU Foundations",
+    "crumbs": [
+      "Volume 1 — Foundations of LLM Inference"
+    ]
   },
   {
     "objectID": "books/volume-1/index.html#chapters",
     "href": "books/volume-1/index.html#chapters",
     "title": "Volume 1 — Foundations of LLM Inference",
     "section": "",
-    "text": "The Inference Revolution\nAnatomy of an Inference Request\nTokens and Tokenization\nTransformer Inference\nPrefill and Decode\nThe KV Cache\nInference Performance Metrics\nGPU Foundations"
+    "text": "The Inference Revolution\nAnatomy of an Inference Request\nTokens and Tokenization\nTransformer Inference\nPrefill and Decode\nThe KV Cache\nInference Performance Metrics\nGPU Foundations",
+    "crumbs": [
+      "Volume 1 — Foundations of LLM Inference"
+    ]
   },
   {
     "objectID": "index.html",
