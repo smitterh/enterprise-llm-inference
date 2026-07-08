@@ -1,0 +1,136 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html",
+    "href": "books/volume-1/ch01-inference-revolution.html",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "",
+    "text": "Every major shift in computing has created a new engineering discipline.\nThe rise of relational databases created database administrators and database engineers. The growth of the Internet produced web engineers. Cloud computing gave rise to cloud architects, site reliability engineering (SRE), and platform engineering. Kubernetes introduced an entirely new ecosystem of cloud-native infrastructure specialists.\nLarge Language Models (LLMs) represent another such shift.\nWhile much public attention has focused on training increasingly capable models, the overwhelming majority of organizations will never train a frontier model. Instead, they will deploy, serve, secure, monitor, and optimize models that already exist. The challenge is no longer how to create a model—it is how to run one efficiently, economically, and reliably at scale.\nThis challenge is known as LLM inference.\nInference engineering sits at the intersection of distributed systems, GPU computing, networking, scheduling, storage, cloud-native platforms, and machine learning infrastructure. It is becoming its own engineering discipline because traditional software architectures were never designed to execute probabilistic models that generate text one token at a time.\nThis book is about that discipline.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#why-this-matters",
+    "href": "books/volume-1/ch01-inference-revolution.html#why-this-matters",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "",
+    "text": "Every major shift in computing has created a new engineering discipline.\nThe rise of relational databases created database administrators and database engineers. The growth of the Internet produced web engineers. Cloud computing gave rise to cloud architects, site reliability engineering (SRE), and platform engineering. Kubernetes introduced an entirely new ecosystem of cloud-native infrastructure specialists.\nLarge Language Models (LLMs) represent another such shift.\nWhile much public attention has focused on training increasingly capable models, the overwhelming majority of organizations will never train a frontier model. Instead, they will deploy, serve, secure, monitor, and optimize models that already exist. The challenge is no longer how to create a model—it is how to run one efficiently, economically, and reliably at scale.\nThis challenge is known as LLM inference.\nInference engineering sits at the intersection of distributed systems, GPU computing, networking, scheduling, storage, cloud-native platforms, and machine learning infrastructure. It is becoming its own engineering discipline because traditional software architectures were never designed to execute probabilistic models that generate text one token at a time.\nThis book is about that discipline.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#gpu-memory",
+    "href": "books/volume-1/ch01-inference-revolution.html#gpu-memory",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.1 GPU Memory",
+    "text": "6.1 GPU Memory\nThe largest models require tens or hundreds of gigabytes of accelerator memory.\nEven when computation is available, insufficient memory prevents additional requests from executing concurrently.\nMemory—not compute—is often the limiting resource.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#model-loading",
+    "href": "books/volume-1/ch01-inference-revolution.html#model-loading",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.2 Model Loading",
+    "text": "6.2 Model Loading\nLoading a large language model into GPU memory may take tens of seconds.\nCreating new replicas on demand is therefore much slower than scaling a stateless application container.\nInference platforms frequently keep models resident in memory to avoid repeated loading costs.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#context-length",
+    "href": "books/volume-1/ch01-inference-revolution.html#context-length",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.3 Context Length",
+    "text": "6.3 Context Length\nLonger conversations require more computation and more memory than short prompts.\nTwo users making requests to the same model may consume dramatically different resources.\nCapacity planning becomes probabilistic rather than deterministic.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#continuous-batching",
+    "href": "books/volume-1/ch01-inference-revolution.html#continuous-batching",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.4 Continuous Batching",
+    "text": "6.4 Continuous Batching\nModern inference engines improve throughput by combining requests that arrive at different times into a shared execution batch.\nThis technique, known as continuous batching, dramatically improves GPU utilization but introduces sophisticated scheduling algorithms that have no equivalent in traditional web applications.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#kv-cache",
+    "href": "books/volume-1/ch01-inference-revolution.html#kv-cache",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "6.5 KV Cache",
+    "text": "6.5 KV Cache\nEvery generated token creates intermediate state that must remain available while the conversation continues.\nThis state, known as the KV cache, often becomes the dominant consumer of GPU memory.\nAs request concurrency increases, cache management becomes as important as computation itself.\nThese constraints explain why inference systems require specialized software such as vLLM, SGLang, TensorRT-LLM, and llm-d.\nTheir purpose is not simply to execute models.\nTheir purpose is to maximize useful work performed by expensive accelerator hardware.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#objective",
+    "href": "books/volume-1/ch01-inference-revolution.html#objective",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "13.1 Objective",
+    "text": "13.1 Objective\nObserve the complete lifecycle of an inference request.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#steps",
+    "href": "books/volume-1/ch01-inference-revolution.html#steps",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "13.2 Steps",
+    "text": "13.2 Steps\n\nInstall Ollama.\nDownload a lightweight open model.\nStart the model locally.\nSend several prompts of varying length.\nObserve streamed token generation.\nMeasure:\n\ntotal response time;\napproximate tokens per second; and\nCPU or GPU utilization during execution.",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/ch01-inference-revolution.html#questions",
+    "href": "books/volume-1/ch01-inference-revolution.html#questions",
+    "title": "Chapter 1 — The Inference Revolution",
+    "section": "13.3 Questions",
+    "text": "13.3 Questions\n\nDoes a longer prompt always produce a longer response?\nWhich appears to take longer: generating the first token or generating subsequent tokens?\nWhat hardware resource becomes most heavily utilized?",
+    "crumbs": [
+      "Chapter 1 — The Inference Revolution"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/index.html",
+    "href": "books/volume-1/index.html",
+    "title": "Volume 1 — Foundations of LLM Inference",
+    "section": "",
+    "text": "This volume explains how LLM inference works from first principles.\n\n\n\nThe Inference Revolution\nAnatomy of an Inference Request\nTokens and Tokenization\nTransformer Inference\nPrefill and Decode\nThe KV Cache\nInference Performance Metrics\nGPU Foundations",
+    "crumbs": [
+      "Volume 1 — Foundations of LLM Inference"
+    ]
+  },
+  {
+    "objectID": "books/volume-1/index.html#chapters",
+    "href": "books/volume-1/index.html#chapters",
+    "title": "Volume 1 — Foundations of LLM Inference",
+    "section": "",
+    "text": "The Inference Revolution\nAnatomy of an Inference Request\nTokens and Tokenization\nTransformer Inference\nPrefill and Decode\nThe KV Cache\nInference Performance Metrics\nGPU Foundations",
+    "crumbs": [
+      "Volume 1 — Foundations of LLM Inference"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Enterprise LLM Inference Engineering",
+    "section": "",
+    "text": "1 Welcome\nThis is an open knowledge base and textbook series for enterprise LLM inference engineering.\nIt covers:\n\nLLM inference fundamentals\nGPU systems\nInference engines\nDistributed inference\nKubernetes AI platforms\nllm-d\nAI gateways\nObservability\nEnterprise architecture"
+  }
+]
