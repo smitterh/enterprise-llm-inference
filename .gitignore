@@ -1,26 +1,19 @@
 # Quarto output
 _site/
-
 # Quarto cache
 .quarto/
-
 # OS files
 .DS_Store
 Thumbs.db
-
 # IDE
 .vscode/
 .idea/
-
 # Python
 __pycache__/
 *.pyc
-
 # Local/private files
 .private/
-
 # Local AI agent configuration (if any)
 .agents/local/
-
 /.quarto/
 **/*.quarto_ipynb
