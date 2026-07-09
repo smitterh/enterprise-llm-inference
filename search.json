@@ -9,7 +9,7 @@
   {
     "objectID": "books/volume-1/ch01-inference-revolution.html",
     "href": "books/volume-1/ch01-inference-revolution.html",
-    "title": "1 Chapter 1 — The Inference Revolution",
+    "title": "Chapter 1 — The Inference Revolution",
     "section": "",
     "text": "Every major shift in computing creates a new engineering discipline.\nThe widespread adoption of relational databases gave rise to database administrators and database engineers. The Internet transformed software development into web engineering. Cloud computing introduced cloud architects, site reliability engineers, and platform engineering teams responsible for operating infrastructure at unprecedented scale. Kubernetes, in turn, reshaped the industry once again by making cloud-native infrastructure its own area of expertise.\nLarge Language Models represent the next transformation.\nMuch of the public conversation surrounding AI focuses on training increasingly capable foundation models. Headlines celebrate larger parameter counts, new benchmark records, and ever-growing training clusters. Yet for almost every enterprise, training is not the problem that determines success.\nMost organizations will never train a frontier model. Instead, they will deploy, serve, secure, monitor, and optimize models that already exist. Their challenge is not creating intelligence, but making it available to users quickly, reliably, securely, and at a cost that makes business sense.\nThat challenge is known as LLM inference.\nInference engineering sits at the intersection of distributed systems, GPU computing, networking, scheduling, storage, cloud-native platforms, and machine learning infrastructure. It borrows ideas from each of these disciplines while introducing constraints that none of them were originally designed to address. Traditional software architectures were built around deterministic applications that execute business logic and retrieve data. Inference platforms must orchestrate probabilistic models that generate responses one token at a time while consuming some of the most expensive hardware in the modern data center.\nAs organizations increasingly embed language models into customer-facing products, internal tools, and autonomous systems, inference is becoming an engineering discipline in its own right.\nThis book is about that discipline.",
     "crumbs": [
@@ -19,7 +19,7 @@
   {
     "objectID": "books/volume-1/ch01-inference-revolution.html#why-this-matters",
     "href": "books/volume-1/ch01-inference-revolution.html#why-this-matters",
-    "title": "1 Chapter 1 — The Inference Revolution",
+    "title": "Chapter 1 — The Inference Revolution",
     "section": "",
     "text": "Every major shift in computing creates a new engineering discipline.\nThe widespread adoption of relational databases gave rise to database administrators and database engineers. The Internet transformed software development into web engineering. Cloud computing introduced cloud architects, site reliability engineers, and platform engineering teams responsible for operating infrastructure at unprecedented scale. Kubernetes, in turn, reshaped the industry once again by making cloud-native infrastructure its own area of expertise.\nLarge Language Models represent the next transformation.\nMuch of the public conversation surrounding AI focuses on training increasingly capable foundation models. Headlines celebrate larger parameter counts, new benchmark records, and ever-growing training clusters. Yet for almost every enterprise, training is not the problem that determines success.\nMost organizations will never train a frontier model. Instead, they will deploy, serve, secure, monitor, and optimize models that already exist. Their challenge is not creating intelligence, but making it available to users quickly, reliably, securely, and at a cost that makes business sense.\nThat challenge is known as LLM inference.\nInference engineering sits at the intersection of distributed systems, GPU computing, networking, scheduling, storage, cloud-native platforms, and machine learning infrastructure. It borrows ideas from each of these disciplines while introducing constraints that none of them were originally designed to address. Traditional software architectures were built around deterministic applications that execute business logic and retrieve data. Inference platforms must orchestrate probabilistic models that generate responses one token at a time while consuming some of the most expensive hardware in the modern data center.\nAs organizations increasingly embed language models into customer-facing products, internal tools, and autonomous systems, inference is becoming an engineering discipline in its own right.\nThis book is about that discipline.",
     "crumbs": [
@@ -29,7 +29,7 @@
   {
     "objectID": "books/volume-1/ch01-inference-revolution.html#objective",
     "href": "books/volume-1/ch01-inference-revolution.html#objective",
-    "title": "1 Chapter 1 — The Inference Revolution",
+    "title": "Chapter 1 — The Inference Revolution",
     "section": "13.1 Objective",
     "text": "13.1 Objective\nObserve the lifecycle of a simple inference request and identify the factors that influence latency and throughput.",
     "crumbs": [
@@ -39,7 +39,7 @@
   {
     "objectID": "books/volume-1/ch01-inference-revolution.html#tasks",
     "href": "books/volume-1/ch01-inference-revolution.html#tasks",
-    "title": "1 Chapter 1 — The Inference Revolution",
+    "title": "Chapter 1 — The Inference Revolution",
     "section": "13.2 Tasks",
     "text": "13.2 Tasks\n\nInstall a local inference runtime such as Ollama.\nDownload a lightweight open model.\nExecute several prompts of different lengths.\nObserve streamed token generation.\nMeasure:\n\nTime to first token (TTFT)\nTotal response time\nApproximate tokens per second\nCPU or GPU utilization during execution",
     "crumbs": [
@@ -49,7 +49,7 @@
   {
     "objectID": "books/volume-1/ch01-inference-revolution.html#discussion",
     "href": "books/volume-1/ch01-inference-revolution.html#discussion",
-    "title": "1 Chapter 1 — The Inference Revolution",
+    "title": "Chapter 1 — The Inference Revolution",
     "section": "13.3 Discussion",
     "text": "13.3 Discussion\n\nHow does prompt length affect response time?\nWhich portion of the request appears most expensive?\nDoes the model generate all tokens simultaneously or incrementally?\nWhich system resources become heavily utilized during inference?",
     "crumbs": [
