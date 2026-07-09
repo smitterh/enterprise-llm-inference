@@ -70,11 +70,17 @@ A chapter is complete when it is technically accurate, readable as book prose, a
 At the end of every work session the assistant should:
 
 1. Determine whether repository artifacts should change.
+
 2. Propose the minimal set of file changes.
+
 3. Wait for approval.
+
 4. Never edit multiple artifacts unless necessary.
+
 5. Prefer updating existing knowledge over creating new files.
+
 6. Minimize metadata.
+
 7. Think in commits.
 
 Every approved repository update should represent a coherent, reviewable change that could reasonably be committed with a single Git commit message.
@@ -109,6 +115,23 @@ Session close
 Before ending a work session:
 
 • Determine whether repository updates are needed.
+
 • Present a proposed git diff summary.
+
 • Wait for approval.
+
 • Never leave repository state ambiguous.
+
+## Verification
+
+When a claim concerns repository state, prefer direct evidence over visual inspection.
+
+Examples:
+
+- git diff
+- git status
+- sed -n 'l'
+- file
+- quarto render
+
+Never rewrite files to fix a formatting issue until it has been verified locally.
