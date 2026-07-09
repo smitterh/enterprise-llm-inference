@@ -21,3 +21,6 @@ __pycache__/
 
 # Local AI agent configuration (if any)
 .agents/local/
+
+/.quarto/
+**/*.quarto_ipynb

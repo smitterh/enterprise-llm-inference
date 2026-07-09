@@ -1,3 +1,8 @@
+---
+title: "Chapter 1 — The Inference Revolution"
+author: "Hugo Smitter"
+---
+
 # Chapter 1 — The Inference Revolution
 
 ## Why This Matters
